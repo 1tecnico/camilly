@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo do Chocolate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff8f0;
+            color: #4b2e2e;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #6b3e26;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #8c4b2f;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        section {
+            padding: 20px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        footer {
+            background-color: #6b3e26;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mundo do Chocolate</h1>
+        <p>Descubra tudo sobre o doce mais amado do mundo!</p>
+    </header>
+
+    <nav>
+        <a href="#historia">História</a>
+        <a href="#tipos">Tipos</a>
+        <a href="#curiosidades">Curiosidades</a>
+    </nav>
+
+    <section id="historia">
+        <h2>História do Chocolate</h2>
+        <p>O chocolate tem origem nas civilizações antigas da América Central, como os maias e astecas, que utilizavam o cacau em cerimônias e como moeda. Com o tempo, o chocolate conquistou o mundo e se transformou no doce que conhecemos hoje.</p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Chocolate_%28blue_background%29.jpg" alt="Barra de chocolate">
+    </section>
+
+    <section id="tipos">
+        <h2>Tipos de Chocolate</h2>
+        <ul>
+            <li><strong>Chocolate Amargo:</strong> Rico em cacau e com menos açúcar.</li>
+            <li><strong>Chocolate ao Leite:</strong> Suave e doce, muito popular.</li>
+            <li><strong>Chocolate Branco:</strong> Feito com manteiga de cacau, sem cacau sólido.</li>
+            <li><strong>Chocolate Ruby:</strong> Com uma cor rosada natural e sabor frutado.</li>
+        </ul>
+    </section>
+
+    <section id="curiosidades">
+        <h2>Curiosidades</h2>
+        <p>Você sabia que o chocolate libera endorfinas e pode melhorar o humor? Além disso, o cacau é rico em antioxidantes!</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Mundo do Chocolate. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
