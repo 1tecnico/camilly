@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mundo do Chocolate</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff8f0;
+      color: #4b2e2e;
+    }
+    header {
+      background-color: #6b3e26;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #8c4b2f;
+      text-align: center;
+      padding: 10px 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    footer {
+      background-color: #6b3e26;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Mundo do Chocolate</h1>
+    <p>Descubra tudo sobre o doce mais amado do mundo!</p>
+  </header>
+
+  <nav>
+    <a href="#historia">História</a>
+    <a href="#tipos">Tipos</a>
+    <a href="#curiosidades">Curiosidades</a>
+  </nav>
+
+  <section id="historia">
+    <h2>História do Chocolate</h2>
+    <p>
+      O chocolate tem origem nas antigas civilizações da América Central. Os maias e astecas utilizavam o cacau em rituais e como moeda. Com o tempo, o chocolate foi se transformando até chegar à forma doce e cremosa que conhecemos hoje.
+    </p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Chocolate_%28blue_background%29.jpg" alt="Barra de chocolate">
+  </section>
+
+  <section id="tipos">
+    <h2>Tipos de Chocolate</h2>
+    <ul>
+      <li><strong>Amargo:</strong> Rico em cacau, com sabor intenso.</li>
+      <li><strong>Ao Leite:</strong> Suave e adocicado, o mais popular.</li>
+      <li><strong>Branco:</strong> Feito com manteiga de cacau.</li>
+      <li><strong>Ruby:</strong> Rosa naturalmente, com sabor frutado.</li>
+    </ul>
+  </section>
+
+  <section id="curiosidades">
+    <h2>Curiosidades</h2>
+    <p>O chocolate contém substâncias que liberam endorfinas, ajudando a melhorar o humor. Também é rico em antioxidantes que fazem bem ao coração.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Mundo do Chocolate | Criado com HTML puro para GitHub Pages</p>
+  </footer>
+
+</body>
+</html>
