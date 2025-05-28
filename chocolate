@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site do Chocolate</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fef7f0;
+      color: #4b2e2e;
+      margin: 0;
+    }
+
+    header {
+      background-color: #6b3e26;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      color: #6b3e26;
+    }
+
+    img {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    footer {
+      background-color: #6b3e26;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
+    a {
+      color: #ffcc99;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bem-vindo ao Mundo do Chocolate</h1>
+    <p>O doce mais amado do planeta 🍫</p>
+  </header>
+
+  <main>
+    <h2>O que é Chocolate?</h2>
+    <p>
+      Chocolate é um alimento feito a partir do cacau. Pode ser consumido de diversas formas: em barras, bebidas, recheios ou sobremesas.
+    </p>
+
+    <h2>História</h2>
+    <p>
+      O chocolate foi descoberto pelas civilizações antigas da América Central, como os Maias e Astecas. Com o tempo, se espalhou pelo mundo.
+    </p>
+
+    <h2>Tipos de Chocolate</h2>
+    <ul>
+      <li>Chocolate amargo</li>
+      <li>Chocolate ao leite</li>
+      <li>Chocolate branco</li>
+    </ul>
+
+    <img src="https://images.unsplash.com/photo-1599785209707-28e96b10b67c?auto=format&fit=crop&w=800&q=80" alt="Barras de chocolate">
+
+    <p>Saiba mais na <a href="https://pt.wikipedia.org/wiki/Chocolate" target="_blank">Wikipedia</a>.</p>
+  </main>
+
+  <footer>
+    <p>Site criado por um fã de chocolate | © 2025</p>
+  </footer>
+</body>
+</html>
