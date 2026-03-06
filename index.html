@@ -1,155 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mundo do Chocolate</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #fff8f0;
-      color: #4b2e2e;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<title>Mochila Digital</title>
 
-    header {
-      background-color: #6b3e26;
-      color: white;
-      text-align: center;
-      padding: 40px 20px;
-    }
+<style>
 
-    header h1 {
-      margin: 0;
-      font-size: 2.5em;
-    }
+body{
+font-family: Arial;
+background: linear-gradient(180deg,#ffc1e6,#ffd9f2);
+text-align:center;
+margin:0;
+}
 
-    header p {
-      font-size: 1.2em;
-      margin-top: 10px;
-    }
+/* LOGIN */
 
-    main {
-      padding: 30px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
+#login{
+margin-top:120px;
+}
 
-    section {
-      margin-bottom: 40px;
-    }
+input{
+padding:10px;
+border-radius:10px;
+border:1px solid #ff69b4;
+}
 
-    h2 {
-      color: #8b4513;
-      border-bottom: 2px solid #d9b99b;
-      padding-bottom: 5px;
-    }
+button{
+padding:10px 20px;
+border:none;
+border-radius:12px;
+background:#ff4da6;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
 
-    img {
-      width: 100%;
-      max-width: 700px;
-      border-radius: 10px;
-      margin: 20px 0;
-      display: block;
-    }
+h1{
+color:#ff2e93;
+}
 
-    ul {
-      padding-left: 20px;
-      line-height: 1.6em;
-    }
+/* MOCHILA */
 
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
+#mochila{
+display:none;
+padding:20px;
+}
 
-    .gallery img {
-      width: 100%;
-      max-width: 300px;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
+gap:12px;
+max-width:900px;
+margin:auto;
+}
 
-    .download-btn {
-      display: inline-block;
-      padding: 12px 24px;
-      background-color: #6b3e26;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
+.pasta{
+background:white;
+border:2px solid #ff8fcf;
+border-radius:15px;
+padding:20px;
+cursor:pointer;
+transition:0.2s;
+}
 
-    .download-btn:hover {
-      background-color: #8b5439;
-    }
+.pasta:hover{
+transform:scale(1.05);
+background:#ffe6f5;
+}
 
-    footer {
-      background-color: #6b3e26;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-    }
+/* AREA DE ANOTAÇÃO */
 
-    a {
-      color: #ffcc99;
-    }
+#editor{
+display:none;
+margin-top:20px;
+}
 
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2em;
-      }
-    }
-  </style>
+textarea{
+width:80%;
+height:200px;
+border-radius:12px;
+border:2px solid #ff8fcf;
+padding:10px;
+}
+
+.voltar{
+margin-top:10px;
+}
+
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>Bem-vindo ao Mundo do Chocolate</h1>
-    <p>O doce mais amado do planeta 🍫</p>
-  </header>
 
-  <main>
-    <section>
-      <h2>O que é Chocolate?</h2>
-      <p>Chocolate é um alimento feito a partir do cacau. Pode ser consumido de diversas formas: em barras, bebidas, recheios ou sobremesas.</p>
-      <img src="https://images.unsplash.com/photo-1614605079600-3f51a719e994?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" alt="Barras de chocolate">
-    </section>
+<!-- LOGIN -->
 
-    <section>
-      <h2>História</h2>
-      <p>O chocolate foi descoberto pelas civilizações antigas da América Central, como os Maias e Astecas. Com o tempo, se espalhou pelo mundo, ganhando novas formas e sabores.</p>
-      <img src="https://dicasdacapital.com.br/wp-content/uploads/2024/05/festivalchocolate.jpg" alt="Festival de Chocolate em Brasília">
-    </section>
+<div id="login">
+<h1>🎒 Minha Mochila</h1>
+<p>Digite a senha:</p>
+<input type="password" id="senha">
+<br><br>
+<button onclick="entrar()">Entrar</button>
+<p id="erro" style="color:red;"></p>
+</div>
 
-    <section>
-      <h2>Tipos de Chocolate</h2>
-      <ul>
-        <li>🍫 Chocolate amargo</li>
-        <li>🥛 Chocolate ao leite</li>
-        <li>🍦 Chocolate branco</li>
-      </ul>
+<!-- MOCHILA -->
 
-      <div class="gallery">
-        <img src="https://images.unsplash.com/photo-1590080875831-bf33d229e51c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Chocolate amargo">
-        <img src="https://images.unsplash.com/photo-1606312619364-ecbc2752820a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Chocolate ao leite">
-        <img src="https://images.unsplash.com/photo-1589987601453-6a22d5d3d3f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Chocolate branco">
-      </div>
-    </section>
+<div id="mochila">
 
-    <section>
-      <p>Saiba mais na <a href="https://pt.wikipedia.org/wiki/Chocolate" target="_blank">Wikipedia</a>.</p>
-      <a href="currículo.odt" class="download-btn" download>📄 Baixar Currículo</a>
-    </section>
-  </main>
+<h1>📚 Minhas Matérias</h1>
 
-  <footer>
-    <p>Site criado por um fã de chocolate | © 2025</p>
-  </footer>
+<div class="grid" id="pastas"></div>
+
+<div id="editor">
+<h2 id="tituloMateria"></h2>
+
+<textarea id="texto"></textarea>
+<br>
+<button onclick="salvar()">💾 Salvar</button>
+<br>
+<button class="voltar" onclick="voltar()">⬅ Voltar</button>
+
+</div>
+
+</div>
+
+<script>
+
+let materiaAtual = "";
+
+/* LOGIN */
+
+function entrar(){
+let senha = document.getElementById("senha").value;
+
+if(senha === "1322"){
+document.getElementById("login").style.display="none";
+document.getElementById("mochila").style.display="block";
+}else{
+document.getElementById("erro").innerText="Senha errada!";
+}
+}
+
+/* CRIAR 21 PASTAS */
+
+let container = document.getElementById("pastas");
+
+for(let i=1;i<=21;i++){
+
+let pasta = document.createElement("div");
+pasta.className="pasta";
+pasta.innerHTML="📁 Matéria "+i;
+
+pasta.onclick=function(){
+abrirMateria("materia"+i,"Matéria "+i);
+};
+
+container.appendChild(pasta);
+
+}
+
+/* ABRIR MATERIA */
+
+function abrirMateria(id,nome){
+
+materiaAtual=id;
+
+document.getElementById("pastas").style.display="none";
+document.getElementById("editor").style.display="block";
+
+document.getElementById("tituloMateria").innerText="📚 "+nome;
+
+let salvo = localStorage.getItem(id);
+
+document.getElementById("texto").value = salvo ? salvo : "";
+
+}
+
+/* SALVAR */
+
+function salvar(){
+
+let texto = document.getElementById("texto").value;
+
+localStorage.setItem(materiaAtual,texto);
+
+alert("Salvo!");
+
+}
+
+/* VOLTAR */
+
+function voltar(){
+
+document.getElementById("editor").style.display="none";
+document.getElementById("pastas").style.display="grid";
+
+}
+
+</script>
+
 </body>
 </html>
