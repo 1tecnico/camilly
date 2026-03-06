@@ -2,89 +2,71 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Mochila Digital</title>
+<title>Mochila Escolar</title>
 
 <style>
 
 body{
-font-family: Arial;
-background: linear-gradient(180deg,#ffc1e6,#ffd9f2);
-text-align:center;
+font-family:Arial;
 margin:0;
-}
-
-/* LOGIN */
-
-#login{
-margin-top:120px;
-}
-
-input{
-padding:10px;
-border-radius:10px;
-border:1px solid #ff69b4;
-}
-
-button{
-padding:10px 20px;
-border:none;
-border-radius:12px;
-background:#ff4da6;
-color:white;
-cursor:pointer;
-font-weight:bold;
+background:linear-gradient(135deg,#ff9ecb,#ffd6ea);
+text-align:center;
 }
 
 h1{
-color:#ff2e93;
+color:#b30059;
 }
 
-/* MOCHILA */
-
-#mochila{
-display:none;
-padding:20px;
+#login{
+margin-top:150px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
-gap:12px;
-max-width:900px;
-margin:auto;
+input,textarea{
+padding:8px;
+border-radius:8px;
+border:1px solid #ccc;
+margin:4px;
 }
 
-.pasta{
-background:white;
-border:2px solid #ff8fcf;
-border-radius:15px;
-padding:20px;
+button{
+padding:8px 15px;
+border:none;
+border-radius:10px;
+background:#ff4da6;
+color:white;
 cursor:pointer;
-transition:0.2s;
 }
 
-.pasta:hover{
-transform:scale(1.05);
-background:#ffe6f5;
+button:hover{
+background:#e60073;
 }
 
-/* AREA DE ANOTAÇÃO */
-
-#editor{
+#app{
 display:none;
+padding:20px;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
 margin-top:20px;
 }
 
-textarea{
-width:80%;
-height:200px;
-border-radius:12px;
-border:2px solid #ff8fcf;
+.materia{
+background:white;
+border-radius:15px;
 padding:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
 }
 
-.voltar{
-margin-top:10px;
+textarea{
+width:100%;
+height:80px;
+}
+
+.tarefa{
+font-size:14px;
 }
 
 </style>
@@ -92,108 +74,194 @@ margin-top:10px;
 
 <body>
 
-<!-- LOGIN -->
-
 <div id="login">
-<h1>🎒 Minha Mochila</h1>
-<p>Digite a senha:</p>
-<input type="password" id="senha">
-<br><br>
+<h2>🔐 Mochila Escolar</h2>
+<input type="password" id="senha" placeholder="Digite a senha">
+<br>
 <button onclick="entrar()">Entrar</button>
-<p id="erro" style="color:red;"></p>
+<p id="erro" style="color:red"></p>
 </div>
 
-<!-- MOCHILA -->
+<div id="app">
 
-<div id="mochila">
+<h1>🎒 Minha Mochila</h1>
 
-<h1>📚 Minhas Matérias</h1>
+<h3>📅 Calendário de Provas</h3>
+<input id="provaMateria" placeholder="Matéria">
+<input type="date" id="provaData">
+<button onclick="addProva()">Adicionar</button>
 
-<div class="grid" id="pastas"></div>
+<ul id="listaProvas"></ul>
 
-<div id="editor">
-<h2 id="tituloMateria"></h2>
+<h3>📊 Notas</h3>
+<input id="notaMateria" placeholder="Matéria">
+<input id="notaValor" type="number" placeholder="Nota">
+<button onclick="addNota()">Adicionar</button>
 
-<textarea id="texto"></textarea>
-<br>
-<button onclick="salvar()">💾 Salvar</button>
-<br>
-<button class="voltar" onclick="voltar()">⬅ Voltar</button>
+<ul id="listaNotas"></ul>
 
-</div>
+<h2>📚 Matérias</h2>
+
+<div class="container" id="materias"></div>
 
 </div>
 
 <script>
 
-let materiaAtual = "";
-
-/* LOGIN */
+const senhaCorreta="1322"
 
 function entrar(){
-let senha = document.getElementById("senha").value;
+let senha=document.getElementById("senha").value
 
-if(senha === "1322"){
-document.getElementById("login").style.display="none";
-document.getElementById("mochila").style.display="block";
+if(senha===senhaCorreta){
+document.getElementById("login").style.display="none"
+document.getElementById("app").style.display="block"
+carregar()
 }else{
-document.getElementById("erro").innerText="Senha errada!";
+document.getElementById("erro").innerText="Senha incorreta"
 }
 }
 
-/* CRIAR 21 PASTAS */
+function carregar(){
 
-let container = document.getElementById("pastas");
+let container=document.getElementById("materias")
 
 for(let i=1;i<=21;i++){
 
-let pasta = document.createElement("div");
-pasta.className="pasta";
-pasta.innerHTML="📁 Matéria "+i;
+let nome=localStorage.getItem("nome"+i)||"Matéria "+i
+let texto=localStorage.getItem("texto"+i)||""
 
-pasta.onclick=function(){
-abrirMateria("materia"+i,"Matéria "+i);
-};
+container.innerHTML+=`
 
-container.appendChild(pasta);
+<div class="materia">
+
+<input value="${nome}" onchange="salvarNome(${i},this.value)">
+
+<textarea onkeyup="salvarTexto(${i},this.value)">${texto}</textarea>
+
+<input id="tarefa${i}" placeholder="Nova tarefa">
+
+<button onclick="addTarefa(${i})">Adicionar</button>
+
+<ul id="lista${i}"></ul>
+
+</div>
+
+`
+}
+
+carregarTarefas()
+carregarProvas()
+carregarNotas()
 
 }
 
-/* ABRIR MATERIA */
+function salvarNome(i,valor){
+localStorage.setItem("nome"+i,valor)
+}
 
-function abrirMateria(id,nome){
+function salvarTexto(i,valor){
+localStorage.setItem("texto"+i,valor)
+}
 
-materiaAtual=id;
+function addTarefa(i){
 
-document.getElementById("pastas").style.display="none";
-document.getElementById("editor").style.display="block";
+let input=document.getElementById("tarefa"+i)
 
-document.getElementById("tituloMateria").innerText="📚 "+nome;
+if(input.value==="")return
 
-let salvo = localStorage.getItem(id);
+let tarefas=JSON.parse(localStorage.getItem("tarefas"+i)||"[]")
 
-document.getElementById("texto").value = salvo ? salvo : "";
+tarefas.push(input.value)
+
+localStorage.setItem("tarefas"+i,JSON.stringify(tarefas))
+
+input.value=""
+
+carregarTarefas()
+}
+
+function carregarTarefas(){
+
+for(let i=1;i<=21;i++){
+
+let lista=document.getElementById("lista"+i)
+
+if(!lista)continue
+
+lista.innerHTML=""
+
+let tarefas=JSON.parse(localStorage.getItem("tarefas"+i)||"[]")
+
+tarefas.forEach((t)=>{
+
+lista.innerHTML+=`<li class="tarefa">${t}</li>`
+
+})
 
 }
 
-/* SALVAR */
+}
 
-function salvar(){
+function addProva(){
 
-let texto = document.getElementById("texto").value;
+let m=document.getElementById("provaMateria").value
+let d=document.getElementById("provaData").value
 
-localStorage.setItem(materiaAtual,texto);
+let provas=JSON.parse(localStorage.getItem("provas")||"[]")
 
-alert("Salvo!");
+provas.push(m+" - "+d)
+
+localStorage.setItem("provas",JSON.stringify(provas))
+
+carregarProvas()
 
 }
 
-/* VOLTAR */
+function carregarProvas(){
 
-function voltar(){
+let lista=document.getElementById("listaProvas")
 
-document.getElementById("editor").style.display="none";
-document.getElementById("pastas").style.display="grid";
+lista.innerHTML=""
+
+let provas=JSON.parse(localStorage.getItem("provas")||"[]")
+
+provas.forEach(p=>{
+
+lista.innerHTML+=`<li>${p}</li>`
+
+})
+
+}
+
+function addNota(){
+
+let m=document.getElementById("notaMateria").value
+let v=document.getElementById("notaValor").value
+
+let notas=JSON.parse(localStorage.getItem("notas")||"[]")
+
+notas.push(m+" - "+v)
+
+localStorage.setItem("notas",JSON.stringify(notas))
+
+carregarNotas()
+
+}
+
+function carregarNotas(){
+
+let lista=document.getElementById("listaNotas")
+
+lista.innerHTML=""
+
+let notas=JSON.parse(localStorage.getItem("notas")||"[]")
+
+notas.forEach(n=>{
+
+lista.innerHTML+=`<li>${n}</li>`
+
+})
 
 }
 
