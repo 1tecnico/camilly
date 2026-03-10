@@ -157,15 +157,15 @@ function carregarMaterias() {
   }
 }
 
-/* Horário Escolar com Matutino/Vespertino */
+/* Horário Escolar com cores diferentes e espaço */
 function carregarHorario(){
   const tabela = document.getElementById("horario");
   tabela.innerHTML = "";
   for(let i=1;i<=9;i++){
     let linha = "<tr>";
     // coluna do período
-    if(i===1) linha += `<td rowspan="5" style="writing-mode: vertical-rl; transform: rotate(180deg); font-weight:bold; font-size:14px;">Matutino</td>`;
-    if(i===6) linha += `<td rowspan="4" style="writing-mode: vertical-rl; transform: rotate(180deg); font-weight:bold; font-size:14px;">Vespertino</td>`;
+    if(i===1) linha += `<td rowspan="5" style="writing-mode: vertical-rl; transform: rotate(180deg); font-weight:bold; font-size:14px; background-color:#ffd6ec; padding:10px;">Matutino</td>`;
+    if(i===6) linha += `<td rowspan="4" style="writing-mode: vertical-rl; transform: rotate(180deg); font-weight:bold; font-size:14px; background-color:#ff99cc; padding:10px;">Vespertino</td>`;
     // número da aula
     linha += "<th>"+i+"</th>";
     // dias
