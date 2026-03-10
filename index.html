@@ -12,33 +12,36 @@ margin:0;
 background:linear-gradient(135deg,#ffcce6,#ff99cc,#ffd6ec);
 text-align:center;
 overflow-x:hidden;
+position:relative;
 }
 
-/* corações flutuando */
+/* corações no fundo */
 
 .heart{
 position:fixed;
-bottom:-20px;
-font-size:20px;
-animation:subir 10s linear infinite;
-opacity:0.4;
+bottom:-100px;
+font-size:60px;
+animation:subir 15s linear infinite;
+opacity:0.25;
+z-index:-1;
 }
 
 @keyframes subir{
 0%{transform:translateY(0)}
-100%{transform:translateY(-120vh)}
+100%{transform:translateY(-140vh)}
 }
 
 h1,h2,h3{color:#b30059;}
 
-#login{
-margin-top:150px;
-}
-
 .nome{
+font-size:18px;
 font-weight:bold;
 color:#99004d;
 margin:10px;
+}
+
+#login{
+margin-top:150px;
 }
 
 input,textarea{
@@ -90,7 +93,7 @@ height:80px;
 font-size:14px;
 }
 
-/* quadro de horário */
+/* horario */
 
 .tabela{
 margin:auto;
@@ -99,6 +102,7 @@ border-radius:15px;
 padding:10px;
 box-shadow:0 3px 10px rgba(0,0,0,0.2);
 overflow:auto;
+margin-top:40px;
 }
 
 table{
@@ -130,11 +134,12 @@ background:#fff5fa;
 <!-- corações -->
 <div class="heart" style="left:10%">💖</div>
 <div class="heart" style="left:30%">💗</div>
-<div class="heart" style="left:50%">💞</div>
-<div class="heart" style="left:70%">💘</div>
-<div class="heart" style="left:90%">💕</div>
+<div class="heart" style="left:50%">💕</div>
+<div class="heart" style="left:70%">💞</div>
+<div class="heart" style="left:90%">💘</div>
 
 <div id="login">
+
 <h2>🎀 Mochila Escolar 🎀</h2>
 
 <div class="nome">
@@ -144,11 +149,20 @@ CAMILLY EMANUELA DOS SANTOS FARIA
 <input type="password" id="senha" placeholder="Digite a senha" oninput="entrarAuto()">
 
 <p id="erro"></p>
+
 </div>
 
 <div id="app">
 
 <h1>🎒 Minha Mochila</h1>
+
+<div class="nome">
+CAMILLY EMANUELA DOS SANTOS FARIA
+</div>
+
+<h2>📚 Matérias</h2>
+
+<div class="container" id="materias"></div>
 
 <h2>🗓 Meu Horário Escolar</h2>
 
@@ -179,10 +193,6 @@ CAMILLY EMANUELA DOS SANTOS FARIA
 
 <ul id="listaNotas"></ul>
 
-<h2>📚 Matérias</h2>
-
-<div class="container" id="materias"></div>
-
 </div>
 
 <script>
@@ -190,6 +200,7 @@ CAMILLY EMANUELA DOS SANTOS FARIA
 const senhaCorreta="1322";
 
 function entrarAuto(){
+
 let senha=document.getElementById("senha").value;
 
 if(senha===senhaCorreta){
@@ -201,9 +212,10 @@ carregarHorario();
 carregarMaterias();
 
 }
+
 }
 
-/* HORARIO */
+/* horario */
 
 function carregarHorario(){
 
@@ -232,10 +244,12 @@ tabela.innerHTML+=linha;
 }
 
 function salvarHorario(id,valor){
+
 localStorage.setItem(id,valor);
+
 }
 
-/* MATERIAS */
+/* materias */
 
 function carregarMaterias(){
 
@@ -279,11 +293,15 @@ carregarNotas();
 }
 
 function salvarNome(i,v){
+
 localStorage.setItem("nome"+i,v);
+
 }
 
 function salvarTexto(i,v){
+
 localStorage.setItem("texto"+i,v);
+
 }
 
 /* tarefas */
@@ -341,7 +359,7 @@ let notas=JSON.parse(localStorage.getItem("notas")||"[]");
 
 notas.push(m+" - "+v);
 
-localStorage.setItem("notas",JSON.stringify(notas));
+localStorage.setItem("notas",JSON.stringify(notas);
 
 carregarNotas();
 
