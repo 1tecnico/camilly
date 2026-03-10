@@ -63,7 +63,7 @@ input[type=password] {
 .tabela {
   margin:auto; background:white; border-radius:15px; padding:10px; box-shadow:0 3px 10px rgba(0,0,0,0.2); margin-top:40px;
 }
-table { border-collapse:collapse; margin:auto; }
+table { border-collapse:collapse; margin:auto; width:90%; }
 th,td { border:1px solid #ff99cc; padding:6px; }
 th { background:#ffb3d9; }
 td input { width:90px; border:none; text-align:center; background:#fff5fa; }
@@ -108,7 +108,7 @@ button:hover { background:#e60073; }
   <div class="tabela">
     <table>
       <tr>
-        <th></th> <!-- coluna para “Matutino/Vespertino” -->
+        <th></th> <!-- coluna para Matutino/Vespertino -->
         <th>Aula</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th>
       </tr>
       <tbody id="horario"></tbody>
@@ -157,24 +157,33 @@ function carregarMaterias() {
   }
 }
 
-/* Horário Escolar com cores diferentes e espaço */
+/* Horário Escolar com cores diferentes e espaçamento */
 function carregarHorario(){
   const tabela = document.getElementById("horario");
   tabela.innerHTML = "";
   for(let i=1;i<=9;i++){
     let linha = "<tr>";
-    // coluna do período
-    if(i===1) linha += `<td rowspan="5" style="writing-mode: vertical-rl; transform: rotate(180deg); font-weight:bold; font-size:14px; background-color:#ffd6ec; padding:10px;">Matutino</td>`;
-    if(i===6) linha += `<td rowspan="4" style="writing-mode: vertical-rl; transform: rotate(180deg); font-weight:bold; font-size:14px; background-color:#ff99cc; padding:10px;">Vespertino</td>`;
+
+    // fundo das linhas: matutino rosa claro, vespertino rosa escuro
+    let fundo = (i<=5) ? "#ffe6f0" : "#ff80bf";
+
     // número da aula
-    linha += "<th>"+i+"</th>";
+    linha += `<th style="background:${fundo}">${i}</th>`;
+
     // dias
     for(let d=1; d<=5; d++){
       let id = "h"+i+"_"+d;
       let valor = localStorage.getItem(id)||"";
-      linha += `<td><input value="${valor}" onkeyup="salvarHorario('${id}',this.value)"></td>`;
+      linha += `<td style="background:${fundo}"><input value="${valor}" onkeyup="salvarHorario('${id}',this.value)"></td>`;
     }
+
     linha += "</tr>";
+
+    // adicionar espaçamento visual entre 5 e 6
+    if(i===5){
+      linha += `<tr><td colspan="6" style="height:8px; background:white; border:none;"></td></tr>`;
+    }
+
     tabela.innerHTML += linha;
   }
 }
