@@ -31,6 +31,14 @@ body {
 /* ===== Login ===== */
 #login {
   margin-top: 100px;
+  position: relative;
+}
+
+#login img.logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
 }
 
 h1.cursiva {
@@ -57,9 +65,17 @@ input[type=password] {
   font-size:16px;
 }
 
-#app { display:none; padding:20px; }
+#app { display:none; padding:20px; position: relative; }
 
-/* ===== Divisórias de matérias ===== */
+/* ===== Logo da Rose Quartz ===== */
+#app img.rose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 150px;
+}
+
+/* ===== Matérias estilo caderno ===== */
 .container {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
@@ -70,18 +86,28 @@ input[type=password] {
 .materia {
   background:#fff0f7;
   border-radius:15px;
-  padding:15px;
-  box-shadow:0 3px 10px rgba(0,0,0,0.2);
   border:2px solid #ffb3d9;
-  min-height:200px;
+  padding:0;
+  max-height:60px; /* fechado inicialmente */
+  overflow:hidden;
+  transition: max-height 0.5s ease;
+  cursor:pointer;
 }
 
-.materia input {
-  width:90%;
-  padding:6px;
-  border-radius:6px;
-  border:1px solid #ff80bf;
-  margin-bottom:6px;
+.materia.open { max-height:400px; } /* aberto */
+
+.materia-header {
+  padding:10px;
+  font-weight:bold;
+  color:#99004d;
+  background:#ffb3d9;
+}
+
+.materia textarea { 
+  width:90%; 
+  height:200px; 
+  margin:10px auto; 
+  display:block; 
 }
 
 /* ===== Tabela de horário ===== */
@@ -122,6 +148,7 @@ button {
 }
 
 button:hover { background:#e60073; }
+
 </style>
 </head>
 <body>
@@ -139,6 +166,7 @@ button:hover { background:#e60073; }
 
 <!-- ===== Tela de Login ===== -->
 <div id="login">
+  <img class="logo" src="https://via.placeholder.com/50x50.png?text=ECM" alt="Logo da Escola">
   <h1 class="cursiva">MOCHILA</h1>
   <div class="nome">CAMILLY EMANUELA DOS SANTOS FARIA</div>
   <input type="password" id="senha" placeholder="Digite a senha" oninput="entrarAuto()">
@@ -146,6 +174,7 @@ button:hover { background:#e60073; }
 
 <!-- ===== Tela Principal ===== -->
 <div id="app">
+  <img class="rose" src="https://upload.wikimedia.org/wikipedia/en/2/2c/Rose_Quartz_Steven_Universe.png" alt="Rose Quartz">
   <h1 class="cursiva">MOCHILA</h1>
   <div class="nome">CAMILLY EMANUELA DOS SANTOS FARIA</div>
 
@@ -174,26 +203,41 @@ function entrarAuto() {
     document.getElementById("app").style.display = "block";
     carregarMaterias();
     carregarHorario();
+    ativarCaderno();
   }
 }
 
-/* ===== Matérias ===== */
+/* ===== Matérias estilo caderno ===== */
 function carregarMaterias() {
   const container = document.getElementById("materias");
   container.innerHTML = "";
   for(let i=1;i<=24;i++){
     let nome = localStorage.getItem("nome"+i) || "Matéria "+i;
+    let texto = localStorage.getItem("texto"+i) || "";
     container.innerHTML += `
-    <div class="materia">
-      <input value="${nome}" placeholder="Nome da matéria" onchange="salvarNome(${i},this.value)">
-      <textarea placeholder="Anotações" onkeyup="salvarTexto(${i},this.value)">${localStorage.getItem("texto"+i)||''}</textarea>
-    </div>
+      <div class="materia">
+        <div class="materia-header">${nome}</div>
+        <textarea placeholder="Anotações">${texto}</textarea>
+      </div>
     `;
   }
 }
 
+/* Salvar nomes e textos */
 function salvarNome(i,v){ localStorage.setItem("nome"+i,v);}
 function salvarTexto(i,v){ localStorage.setItem("texto"+i,v);}
+
+/* Abrir caderno ao clicar */
+function ativarCaderno(){
+  document.querySelectorAll('.materia').forEach((div,i)=>{
+    const header = div.querySelector('.materia-header');
+    const textarea = div.querySelector('textarea');
+    textarea.addEventListener('input',()=>salvarTexto(i+1,textarea.value));
+    header.addEventListener('click', ()=>{
+      div.classList.toggle('open');
+    });
+  });
+}
 
 /* ===== Horário Escolar ===== */
 function carregarHorario(){
