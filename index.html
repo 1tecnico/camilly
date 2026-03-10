@@ -2,149 +2,368 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Mochila Escolar Personalizável</title>
+<title>Mochila Escolar</title>
+
 <style>
+
 body{
 font-family:Arial;
 margin:0;
-background:linear-gradient(135deg,#ff9ecb,#ffd6ea);
+background:linear-gradient(135deg,#ffcce6,#ff99cc,#ffd6ec);
 text-align:center;
+overflow-x:hidden;
 }
+
+/* corações flutuando */
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:subir 10s linear infinite;
+opacity:0.4;
+}
+
+@keyframes subir{
+0%{transform:translateY(0)}
+100%{transform:translateY(-120vh)}
+}
+
 h1,h2,h3{color:#b30059;}
-#login{margin-top:150px;}
-input,textarea{padding:8px;border-radius:8px;border:1px solid #ccc;margin:4px;}
-button{padding:8px 15px;border:none;border-radius:10px;background:#ff4da6;color:white;cursor:pointer;}
-button:hover{background:#e60073;}
-#app{display:none;padding:20px;}
-.container{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:20px;}
-.materia{background:white;border-radius:15px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,0.2);}
-textarea{width:100%;height:80px;}
-.tarefa{font-size:14px;}
+
+#login{
+margin-top:150px;
+}
+
+.nome{
+font-weight:bold;
+color:#99004d;
+margin:10px;
+}
+
+input,textarea{
+padding:8px;
+border-radius:10px;
+border:1px solid #ff80bf;
+margin:4px;
+}
+
+button{
+padding:8px 15px;
+border:none;
+border-radius:10px;
+background:#ff4da6;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#e60073;
+}
+
+#app{
+display:none;
+padding:20px;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-top:20px;
+}
+
+.materia{
+background:#fff0f7;
+border-radius:15px;
+padding:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
+border:2px solid #ffb3d9;
+}
+
+textarea{
+width:100%;
+height:80px;
+}
+
+.tarefa{
+font-size:14px;
+}
+
+/* quadro de horário */
+
+.tabela{
+margin:auto;
+background:white;
+border-radius:15px;
+padding:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
+overflow:auto;
+}
+
+table{
+border-collapse:collapse;
+margin:auto;
+}
+
+th,td{
+border:1px solid #ff99cc;
+padding:6px;
+}
+
+th{
+background:#ffb3d9;
+}
+
+td input{
+width:90px;
+border:none;
+text-align:center;
+background:#fff5fa;
+}
+
 </style>
 </head>
+
 <body>
 
+<!-- corações -->
+<div class="heart" style="left:10%">💖</div>
+<div class="heart" style="left:30%">💗</div>
+<div class="heart" style="left:50%">💞</div>
+<div class="heart" style="left:70%">💘</div>
+<div class="heart" style="left:90%">💕</div>
+
 <div id="login">
-<h2>🔐 Mochila Escolar</h2>
-<input type="password" id="senha" placeholder="Digite a senha"><br>
-<button onclick="entrar()">Entrar</button>
-<p id="erro" style="color:red"></p>
+<h2>🎀 Mochila Escolar 🎀</h2>
+
+<div class="nome">
+CAMILLY EMANUELA DOS SANTOS FARIA
+</div>
+
+<input type="password" id="senha" placeholder="Digite a senha" oninput="entrarAuto()">
+
+<p id="erro"></p>
 </div>
 
 <div id="app">
+
 <h1>🎒 Minha Mochila</h1>
 
-<h3>📅 Calendário de Provas</h3>
-<input id="provaMateria" placeholder="Matéria">
-<input type="date" id="provaData">
-<button onclick="addProva()">Adicionar</button>
-<ul id="listaProvas"></ul>
+<h2>🗓 Meu Horário Escolar</h2>
+
+<div class="tabela">
+
+<table>
+
+<tr>
+<th>Aula</th>
+<th>Seg</th>
+<th>Ter</th>
+<th>Qua</th>
+<th>Qui</th>
+<th>Sex</th>
+</tr>
+
+<tbody id="horario"></tbody>
+
+</table>
+
+</div>
 
 <h3>📊 Notas</h3>
+
 <input id="notaMateria" placeholder="Matéria">
 <input id="notaValor" type="number" placeholder="Nota">
 <button onclick="addNota()">Adicionar</button>
+
 <ul id="listaNotas"></ul>
 
 <h2>📚 Matérias</h2>
+
 <div class="container" id="materias"></div>
+
 </div>
 
 <script>
+
 const senhaCorreta="1322";
 
-function entrar(){
+function entrarAuto(){
 let senha=document.getElementById("senha").value;
+
 if(senha===senhaCorreta){
+
 document.getElementById("login").style.display="none";
 document.getElementById("app").style.display="block";
+
+carregarHorario();
 carregarMaterias();
-}else{
-document.getElementById("erro").innerText="Senha incorreta";
+
 }
 }
 
-// Função para carregar 21 matérias personalizáveis
+/* HORARIO */
+
+function carregarHorario(){
+
+let tabela=document.getElementById("horario");
+
+for(let i=1;i<=9;i++){
+
+let linha="<tr><th>"+i+"</th>";
+
+for(let d=1;d<=5;d++){
+
+let id="h"+i+"_"+d;
+
+let valor=localStorage.getItem(id)||"";
+
+linha+=`<td><input value="${valor}" onkeyup="salvarHorario('${id}',this.value)"></td>`;
+
+}
+
+linha+="</tr>";
+
+tabela.innerHTML+=linha;
+
+}
+
+}
+
+function salvarHorario(id,valor){
+localStorage.setItem(id,valor);
+}
+
+/* MATERIAS */
+
 function carregarMaterias(){
+
 let container=document.getElementById("materias");
+
 container.innerHTML="";
-for(let i=1;i<=21;i++){
+
+for(let i=1;i<=24;i++){
+
 let nome=localStorage.getItem("nome"+i)||"";
 let texto=localStorage.getItem("texto"+i)||"";
+
 container.innerHTML+=`
+
 <div class="materia">
-<input value="${nome}" placeholder="Nome da matéria" onchange="salvarNome(${i},this.value)">
-<textarea onkeyup="salvarTexto(${i},this.value)" placeholder="Anotações">${texto}</textarea>
+
+<h4>📚 Matéria</h4>
+
+<input value="${nome}" placeholder="Nome da matéria"
+onchange="salvarNome(${i},this.value)">
+
+<textarea
+onkeyup="salvarTexto(${i},this.value)"
+placeholder="Anotações">${texto}</textarea>
+
 <input id="tarefa${i}" placeholder="Nova tarefa">
-<button onclick="addTarefa(${i})">Adicionar Tarefa</button>
+
+<button onclick="addTarefa(${i})">Adicionar</button>
+
 <ul id="lista${i}"></ul>
+
 </div>
+
 `;
+
 }
+
 carregarTarefas();
-carregarProvas();
 carregarNotas();
+
 }
 
-function salvarNome(i,valor){localStorage.setItem("nome"+i,valor);}
-function salvarTexto(i,valor){localStorage.setItem("texto"+i,valor);}
+function salvarNome(i,v){
+localStorage.setItem("nome"+i,v);
+}
+
+function salvarTexto(i,v){
+localStorage.setItem("texto"+i,v);
+}
+
+/* tarefas */
+
 function addTarefa(i){
+
 let input=document.getElementById("tarefa"+i);
+
 if(input.value==="")return;
+
 let tarefas=JSON.parse(localStorage.getItem("tarefas"+i)||"[]");
+
 tarefas.push(input.value);
+
 localStorage.setItem("tarefas"+i,JSON.stringify(tarefas));
+
 input.value="";
+
 carregarTarefas();
+
 }
+
 function carregarTarefas(){
-for(let i=1;i<=21;i++){
+
+for(let i=1;i<=24;i++){
+
 let lista=document.getElementById("lista"+i);
+
 if(!lista)continue;
+
 lista.innerHTML="";
+
 let tarefas=JSON.parse(localStorage.getItem("tarefas"+i)||"[]");
-tarefas.forEach(t=>{lista.innerHTML+=`<li class="tarefa">${t}</li>`;});
-}
+
+tarefas.forEach(t=>{
+
+lista.innerHTML+=`<li class="tarefa">🎀 ${t}</li>`;
+
+});
+
 }
 
-// Calendário de provas
-function addProva(){
-let m=document.getElementById("provaMateria").value;
-let d=document.getElementById("provaData").value;
-if(!m||!d)return;
-let provas=JSON.parse(localStorage.getItem("provas")||"[]");
-provas.push(m+" - "+d);
-localStorage.setItem("provas",JSON.stringify(provas));
-carregarProvas();
-document.getElementById("provaMateria").value="";
-document.getElementById("provaData").value="";
-}
-function carregarProvas(){
-let lista=document.getElementById("listaProvas");
-lista.innerHTML="";
-let provas=JSON.parse(localStorage.getItem("provas")||"[]");
-provas.forEach(p=>{lista.innerHTML+=`<li>${p}</li>`;});
 }
 
-// Notas
+/* notas */
+
 function addNota(){
+
 let m=document.getElementById("notaMateria").value;
 let v=document.getElementById("notaValor").value;
+
 if(!m||!v)return;
+
 let notas=JSON.parse(localStorage.getItem("notas")||"[]");
+
 notas.push(m+" - "+v);
+
 localStorage.setItem("notas",JSON.stringify(notas));
+
 carregarNotas();
-document.getElementById("notaMateria").value="";
-document.getElementById("notaValor").value="";
+
 }
+
 function carregarNotas(){
+
 let lista=document.getElementById("listaNotas");
+
 lista.innerHTML="";
+
 let notas=JSON.parse(localStorage.getItem("notas")||"[]");
-notas.forEach(n=>{lista.innerHTML+=`<li>${n}</li>`;});
+
+notas.forEach(n=>{
+
+lista.innerHTML+=`<li>💗 ${n}</li>`;
+
+});
+
 }
 
 </script>
+
 </body>
 </html>
