@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo - Desvie dos Blocos</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #111;
+      color: white;
+      font-family: Arial;
+      text-align: center;
+    }
+    canvas {
+      background: #222;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+<h2>Use as setas ← → para desviar!</h2>
+<canvas id="gameCanvas" width="400" height="600"></canvas>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+let player = {
+  x: 180,
+  y: 550,
+  width: 40,
+  height: 40,
+  speed: 6
+};
+
+let obstacles = [];
+let score = 0;
+let gameOver = false;
+
+function spawnObstacle() {
+  let size = Math.random() * 30 + 20;
+  obstacles.push({
+    x: Math.random() * (canvas.width - size),
+    y: -size,
+    width: size,
+    height: size,
+    speed: Math.random() * 3 + 2
+  });
+}
+
+function update() {
+  if (gameOver) return;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Player
+  ctx.fillStyle = 'lime';
+  ctx.fillRect(player.x, player.y, player.width, player.height);
+
+  // Obstacles
+  ctx.fillStyle = 'red';
+  obstacles.forEach((obs, index) => {
+    obs.y += obs.speed;
+    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+
+    // Collision
+    if (
+      player.x < obs.x + obs.width &&
+      player.x + player.width > obs.x &&
+      player.y < obs.y + obs.height &&
+      player.y + player.height > obs.y
+    ) {
+      gameOver = true;
+      alert('Game Over! Pontuação: ' + score);
+      document.location.reload();
+    }
+
+    // Remove off-screen
+    if (obs.y > canvas.height) {
+      obstacles.splice(index, 1);
+      score++;
+    }
+  });
+
+  // Score
+  ctx.fillStyle = 'white';
+  ctx.fillText('Pontuação: ' + score, 10, 20);
+
+  requestAnimationFrame(update);
+}
+
+// Controls
+let keys = {};
+document.addEventListener('keydown', e => keys[e.key] = true);
+document.addEventListener('keyup', e => keys[e.key] = false);
+
+function movePlayer() {
+  if (keys['ArrowLeft'] && player.x > 0) {
+    player.x -= player.speed;
+  }
+  if (keys['ArrowRight'] && player.x < canvas.width - player.width) {
+    player.x += player.speed;
+  }
+}
+
+setInterval(spawnObstacle, 1000);
+setInterval(movePlayer, 16);
+
+update();
+</script>
+</body>
+</html>
